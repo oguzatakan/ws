@@ -1,5 +1,7 @@
 package com.hoaxify.ws.user;
 
+import com.hoaxify.ws.error.NotFoundException;
+import com.hoaxify.ws.user.vm.UserUpdateVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,5 +29,19 @@ public class UserService {
             return userRepository.findByUsernameNot(user.getUsername(),page);
         }
         return userRepository.findAll(page);
+    }
+
+    public User getByUsername(String username) {
+        User inDB = userRepository.findByUsername(username);
+        if (inDB == null) {
+            throw new NotFoundException();
+        }
+        return inDB;
+    }
+
+    public User updateUser(String username, UserUpdateVM updatedUser) {
+        User inDB = getByUsername(username);
+        inDB.setDisplayName(updatedUser.getDisplayName());
+        return userRepository.save(inDB);
     }
 }
