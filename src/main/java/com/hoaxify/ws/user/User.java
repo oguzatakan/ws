@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 3203364416943033232L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull(message = "{hoaxify.constraint.username.NotNull.message}")
